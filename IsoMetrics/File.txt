@@ -1,0 +1,62 @@
+//
+//  File.swift
+//  IsoMetrics
+//
+//  Created by Javax on 18/07/2018.
+//  Copyright © 2018 Javax Inc. All rights reserved.
+//
+
+import Foundation
+import CoreGraphics
+
+class IsoMetrics {
+    
+    
+    //static let radius:Double = 1
+    static let sideLength:Double = 2
+    
+    
+    
+    
+}
+
+var newCentre:IsoMetrics.IMPoint?
+
+var hexagons:[IsoMetrics.IMHexagon] = []
+
+for x in -30...30 {
+    for z in -30...30 {
+        
+        let c = Circle (radius: Double(IsoMetrics.sideLength/2))
+        let pt = IsoMetrics.convertToSquareGrid(p: IsoMetrics.IMPoint(xa: x, ya: 0, za: z))
+        c.center = pt
+        c.color = Color.white
+        if z == 0 {
+            c.color = Color.red
+        }
+        if x == 0 {
+            c.color = Color.blue
+        }
+        
+        if x-z == 0 {
+            c.color = Color.green
+        }
+        if x == 0 &amp;&amp; z == 0{
+            c.color = Color.black
+        }
+        
+        c.onTouchDown {
+            newCentre = IsoMetrics.IMPoint(xa: x, ya: 0, za: z)
+        }
+        c.onTouchUp {
+            let nc = newCentre!
+            if (nc != nil) {
+                hexagons.append(IsoMetrics.createHexagon(centre: nc, radius: 1))
+                //abs(nc.z-z)
+                print (nc)
+                print (nc.z-z)
+                newCentre = nil
+            }
+        }
+    }
+}
