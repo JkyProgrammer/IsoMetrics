@@ -34,10 +34,6 @@ void IMPoint::translate(IMPoint p) {
 	this->z += p.z;
 }
 
-void IMPoint::rotate (int d) {
-	rotate(d, *this);
-}
-
 void IMPoint::rotate (int d, IMPoint p) {
 	IMPoint dif = *new IMPoint (this->x - p.x, this->y - p.y, this->z - p.z);
 	int pz = dif.z;

@@ -9,6 +9,9 @@
 #include <iostream>
 #include "IsoMetrics.hpp"
 
+IsoMetrics::IsoMetrics () {
+	
+}
 
 void IsoMetrics::start () {
     std::cout << "HI" << std::endl;
