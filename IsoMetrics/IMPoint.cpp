@@ -58,3 +58,10 @@ void IMPoint::rotate (int d, IMPoint p) {
 	this->y = py-ny;
 	this->z = pz-nz;
 }
+
+bool IMPoint::equals(IMPoint other) {
+	if ((this->x == other.x) && (this->y == other.y) && (this->z == other.z)) {
+		return true;
+	}
+	return false;
+}

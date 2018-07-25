@@ -6,9 +6,6 @@
 //  Copyright © 2018 Javax Inc. All rights reserved.
 //
 
-// COMMENT UP //
-// IMPLEMENT  //
-
 #ifndef IsoMetrics_hpp
 #define IsoMetrics_hpp
 
@@ -86,6 +83,15 @@ public:
 	 @param p The IMPoint to rotate the object around.
 	 */
 	void rotate (int d, IMPoint p);
+	
+	/**
+	 Determine if two IMPoints are equal in virtual location.
+	 
+	 @param other The IMPoint with which to compare.
+	 
+	 @return true if the two IMPoints are equal, and false otherwise.
+	 */
+	bool equals (IMPoint other);
 };
 
 /**
@@ -99,7 +105,7 @@ class IMPolygon {
 	/**
 	 Stores the vector of IMPoints. Can be accessed by clients, allowing for use in drawing mechanisms.
 	 */
-protected:
+private:
 	vector<IMPoint> points;
 
 public:
@@ -177,14 +183,13 @@ public:
 };
 
 class IsoMetrics {
-private:
+protected:
 	vector<IMPolygon> objs;
 
 public:
-	void (*draw) (void);
+	void (*drawAll) (void);
 	
 	void start ();
-	void drawAll ();
 	
 	void getPolygon (string);
 	

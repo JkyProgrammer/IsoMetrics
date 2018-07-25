@@ -15,4 +15,6 @@ IsoMetrics::IsoMetrics () {
 
 void IsoMetrics::start () {
     std::cout << "HI" << std::endl;
+	IMPolygon p = *new IMPolygon ("Test Node");
+	
 }
