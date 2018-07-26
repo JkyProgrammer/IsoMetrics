@@ -11,7 +11,7 @@
 
 using namespace std;
 
-// * Rewrite shape presets
+// * MACH-O as Executable
 // * Write bridging headers (various)
 
 IsoMetrics::IsoMetrics () {

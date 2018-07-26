@@ -21,43 +21,18 @@ IMPolygon IMPresets::hexagon (IMPoint center, int radius) {
 
 IMPolygon IMPresets::closedTube (IMPoint start, int radius, int pushOut, int segment) {
 	if (pushOut != 0) {
-		if (segment == Segment::pz) {
-			return *new IMPolygon ({
-				*new IMPoint(start.x, start.y + radius, start.z),
-				*new IMPoint(start.x, start.y, start.z - radius),
-				*new IMPoint(start.x + radius, start.y, start.z),
-				
-				*new IMPoint(start.x, start.y - radius, start.z + pushOut),
-				*new IMPoint(start.x, start.y, start.z + radius + pushOut),
-				*new IMPoint(start.x - radius, start.y, start.z + pushOut)
-			});
-		} else if (segment == Segment::nz) {
-			return *new IMPolygon ({
-				*new IMPoint(start.x, start.y - radius, start.z),
-				*new IMPoint(start.x, start.y, start.z + radius),
-				*new IMPoint(start.x - radius, start.y, start.z),
-				
-				*new IMPoint(start.x, start.y + radius, start.z - pushOut),
-				*new IMPoint(start.x, start.y, start.z - radius - pushOut),
-				*new IMPoint(start.x + radius, start.y, start.z - pushOut)
-			});
-		} else if (segment == Segment::px) {
-			return *new IMPolygon ({
-				*new IMPoint(start.x, start.y + radius, start.z),
-				*new IMPoint(start.x - radius, start.y, start.z),
-				*new IMPoint(start.x, start.y, start.z + radius),
-				
-				*new IMPoint(start.x + pushOut, start.y - radius, start.z),
-				*new IMPoint(start.x + radius + pushOut, start.y, start.z),
-				*new IMPoint(start.x + pushOut, start.y, start.z - radius)
-			});
-		}
-		// NEEDS FINISHING.
+		IMPolygon p = *new IMPolygon ({
+			*new IMPoint(start.x, start.y + radius, start.z),
+			*new IMPoint(start.x, start.y, start.z - radius),
+			*new IMPoint(start.x + radius, start.y, start.z),
+			
+			*new IMPoint(start.x, start.y - radius, start.z + pushOut),
+			*new IMPoint(start.x, start.y, start.z + radius + pushOut),
+			*new IMPoint(start.x - radius, start.y, start.z + pushOut)
+		});
+		p.rotate(segment, start);
+		return p;
 	} else {
 		return hexagon(start, radius);
 	}
-}
-
-IMPolygon IMPresets::openTube (IMPoint start, int radius, int pushOut, int segment) {
-	
 }

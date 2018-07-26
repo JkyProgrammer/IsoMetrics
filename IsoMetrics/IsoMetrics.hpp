@@ -325,18 +325,6 @@ public:
 	 @return An IMPolygon intialised with a vector of IMPoints.
 	 */
 	static IMPolygon closedTube (IMPoint start, int radius, int pushOut, int segment);
-	
-	/**
-	 Generate an IMPolygon in the shape of a tube with open ends.
-	 
-	 @param start The starting point of the tube
-	 @param radius The radius of the tube, with ends being open.
-	 @param pushOut The distance the secondary (non-starting) end should be pushed out along the specified axis, with 0 returning a simple hexagon.
-	 @param segment The hexagon segment axis along which to push the secondary end.
-	 
-	 @return An IMPolygon intialised with a vector of IMPoints.
-	 */
-	static IMPolygon openTube (IMPoint start, int radius, int pushOut, int segment);
 };
 
 #endif /* IsoMetrics_hpp */
