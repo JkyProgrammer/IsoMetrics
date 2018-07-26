@@ -8,6 +8,8 @@
 
 #include "IsoMetrics.hpp"
 
+using namespace std;
+
 IMPolygon::IMPolygon () {
 	
 }
@@ -56,4 +58,16 @@ void IMPolygon::translate(IMPoint d) {
 void IMPolygon::rotate(int d, IMPoint p) {
 	for (int n = 0; n < points.size(); n++)
 		points[n].rotate(d, p);
+}
+
+bool IMPolygon::needsUpdate() {
+	if (hasUnrenderedChanges) {
+		return true;
+	}
+	for (int n = 0; n < points.size(); n++) {
+		if (points[n].needsUpdate()) {
+			return true;
+		}
+	}
+	return false;
 }

@@ -13,7 +13,7 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <tuple>
+//#include <tuple>
 
 
 using namespace std;
@@ -22,12 +22,12 @@ using namespace std;
  Defines the possible axes an IMPoint can be located along, doubled to give a positive and negative sub-axis for each.
  */
 struct Segment {
-	static int px;
-	static int nx;
-	static int py;
-	static int ny;
-	static int pz;
-	static int nz;
+	static const int px = 2;
+	static const int nx = 5;
+	static const int py = 4;
+	static const int ny = 1;
+	static const int pz = 0;
+	static const int nz = 3;
 };
 
 /**
@@ -39,6 +39,10 @@ struct Segment {
  */
 class IMPoint {
 public:
+	/**
+	 Determines if the object has unrendered changes. Should only be used internally, not client side.
+	 */
+	bool hasUnrenderedChanges;
 	
 	/**
 	 The absolute location of the IMPoint on the x axis.
@@ -92,7 +96,22 @@ public:
 	 @return true if the two IMPoints are equal, and false otherwise.
 	 */
 	bool equals (IMPoint other);
+	
+	/**
+	 Check if the object needs its graphics updating.
+	 
+	 @return true if the object needs a graphics refresh, otherwise false.
+	 */
+	bool needsUpdate ();
+	
+	/**
+	 Generates a two-axis 2D coordinate tuple for drawing the point in square-based grid systems.
+	 
+	 @return A tuple of 'float, float', containing the 'x, y' square grid coordinates (respectively).
+	 */
+	tuple<float, float> squareGridCoordinates ();
 };
+
 
 /**
  Manages a set of IMPoints, which make up a closed loop linked path.
@@ -102,13 +121,18 @@ public:
  @version v1.0
  */
 class IMPolygon {
+private:
 	/**
 	 Stores the vector of IMPoints. Can be accessed by clients, allowing for use in drawing mechanisms.
 	 */
-private:
 	vector<IMPoint> points;
 
 public:
+	/**
+	 Determines if the object has unrendered changes. Should only be used internally, not client side.
+	 */
+	bool hasUnrenderedChanges;
+	
 	/**
 	 A recognisable identifier, enabling the object to be retrieved later from the IsoMetrics' IMPolygon vector.
 	 */
@@ -162,7 +186,7 @@ public:
 	 
 	 @param p The IMPoint to be searched for in the IMPoint vector.
 	 
-	 @return a pointer to an IMPoint object if the IMPoint vector contains the specified IMPoint, otherwise null.
+	 @return a pointer to an IMPoint object if the IMPoint vector contains the specified IMPoint, otherwise NULL.
 	 */
 	IMPoint* pointerToPoint (IMPoint p);
 	
@@ -180,32 +204,139 @@ public:
 	 @param p The IMPoint around which to rotate the IMPolygon.
 	 */
 	void rotate (int d, IMPoint p);
+	
+	/**
+	 Check if the object needs its graphics updating.
+	 
+	 @return true if the object needs a graphics refresh, otherwise false.
+	 */
+	bool needsUpdate ();
 };
 
+
+/**
+ Controller class for the IsoMetrics Scene.
+ 
+ @author Jake Costen
+ 
+ @version v1.0
+ */
 class IsoMetrics {
 protected:
+	/**
+	 Stores the vector of IMPolygons.
+	 */
 	vector<IMPolygon> objs;
 
+	/**
+	 Function pointer variable to the a drawing function. Funtion reference should have single 'vector<IMPolygon>' argument. Called when a graphis refresh is needed.
+	 @param v The vector of IMPolygons.
+	 */
+	void (*drawAll) (vector<IMPolygon> v);
+
 public:
-	void (*drawAll) (void);
+	/**
+	 Check if the object needs its graphics updating.
+	 
+	 @return true if the object needs a graphics refresh, otherwise false.
+	 */
+	bool needsUpdate ();
 	
-	void start ();
+	/**
+	 Retrieve an IMPolygon from the IMPolygon vector based on name.
+	 
+	 @param name The name of the IMPolygon to be searched for.
+	 
+	 @return A pointer to the IMPolygon with the specified name, or NULL if it cannot be found.
+	 */
+	IMPolygon* getPolygon (string name);
 	
-	void getPolygon (string);
+	/**
+	 Add an IMPolygon to the IMPolygon vector.
+	 
+	 @param p The IMPolygon to be added.
+	 */
+	void addPolygon (IMPolygon p);
 	
-	void addPolygon (IMPolygon);
-	void removePolygon (IMPolygon);
+	/**
+	 Remove an IMPolygon from the IMPolygon vector based on name.
+	 
+	 @param name The name of the IMPolygon to be removed.
+	 
+	 @return true if the IMPolygon existed (and was successfully removed), otherwise false.
+	 */
+	bool removePolygon (string name);
 	
-	void assignNewDrawCode (void (*newDrawCode) (void));
+	/**
+	 Assign a new drawing code pointer, to be executed when the graphics representation needs updating for some reason.
+	 
+	 @param newDrawCode The function pointer to the new drawing code.
+	 */
+	void assignNewDrawCode (void (*newDrawCode) (vector<IMPolygon>));
 	
+	/**
+	 Initialise a new IsoMetrics object.
+	 */
 	IsoMetrics ();
+	
+	/**
+	 The graphics loop function, will make a call to the function pointer stored in drawAll if a graphics refresh is required.
+	 */
+	void update ();
+	
+	/**
+	 Store the two ratios defining the directional ratios of hexagons on square grids.
+	 */
+	constexpr static const float xRatio = 0.866;
+	constexpr static const float yRatio = 0.5000439981;
+	
+	/**
+	 Get the value from an array with the smallest difference between it and the specified value.
+	 
+	 @param from The integer to compare items with.
+	 @param values The set of integers to compare against the specified integer.
+	 
+	 @return The integer from the array which is closest to the specified integer.
+	 */
+	static int smallestDiff (int from, int values[]);
 };
 
-class IMHexagon : public IMPolygon {
+class IMPresets {
 public:
-	IMHexagon (IMPoint, int);
+	
+	/**
+	 Generate an IMPolygon in the shape of a hexagon.
+	 
+	 @param center The center point of the hexagon.
+	 @param radius The radius of the hexagon.
+	 
+	 @return An IMPolygon intialised with a vector of IMPoints.
+	 */
+	static IMPolygon hexagon (IMPoint center, int radius);
+	
+	/**
+	 Generate an IMPolygon in the shape of a tube with closed ends.
+	 
+	 @param start The starting point of the tube
+	 @param radius The radius of the tube, with ends being curved in the shape of a hemi-hexagon.
+	 @param pushOut The distance the secondary (non-starting) end should be pushed out along the specified axis, with 0 returning a simple hexagon.
+	 @param segment The hexagon segment axis along which to push the secondary end.
+	 
+	 @return An IMPolygon intialised with a vector of IMPoints.
+	 */
+	static IMPolygon closedTube (IMPoint start, int radius, int pushOut, int segment);
+	
+	/**
+	 Generate an IMPolygon in the shape of a tube with open ends.
+	 
+	 @param start The starting point of the tube
+	 @param radius The radius of the tube, with ends being open.
+	 @param pushOut The distance the secondary (non-starting) end should be pushed out along the specified axis, with 0 returning a simple hexagon.
+	 @param segment The hexagon segment axis along which to push the secondary end.
+	 
+	 @return An IMPolygon intialised with a vector of IMPoints.
+	 */
+	static IMPolygon openTube (IMPoint start, int radius, int pushOut, int segment);
 };
-
-#include "Utilities.cpp"
 
 #endif /* IsoMetrics_hpp */

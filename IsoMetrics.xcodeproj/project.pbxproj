@@ -12,11 +12,10 @@
 		A8E5614D2100D977005015BF /* IsoMetrics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8E561482100D977005015BF /* IsoMetrics.cpp */; };
 		A8E5614E2100D977005015BF /* IMPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8E561492100D977005015BF /* IMPolygon.cpp */; };
 		A8E5614F2100D977005015BF /* IsoMetrics.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A8E5614A2100D977005015BF /* IsoMetrics.hpp */; };
-		A8E561502100D977005015BF /* IMHexagon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8E5614B2100D977005015BF /* IMHexagon.cpp */; };
+		A8E561502100D977005015BF /* IMPresets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8E5614B2100D977005015BF /* IMPresets.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A8AE2D822101E62600AEAC8B /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		A8E5610F20FFE94D005015BF /* libIsoMetrics.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libIsoMetrics.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8E561302100CDC2005015BF /* File.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = File.txt; sourceTree = "<group>"; };
 		A8E561332100CDC2005015BF /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
@@ -24,7 +23,7 @@
 		A8E561482100D977005015BF /* IsoMetrics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IsoMetrics.cpp; sourceTree = "<group>"; };
 		A8E561492100D977005015BF /* IMPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMPolygon.cpp; sourceTree = "<group>"; };
 		A8E5614A2100D977005015BF /* IsoMetrics.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IsoMetrics.hpp; sourceTree = "<group>"; };
-		A8E5614B2100D977005015BF /* IMHexagon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMHexagon.cpp; sourceTree = "<group>"; };
+		A8E5614B2100D977005015BF /* IMPresets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMPresets.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,9 +61,8 @@
 				A8E561332100CDC2005015BF /* Utilities.cpp */,
 				A8E561472100D977005015BF /* IMPoint.cpp */,
 				A8E561492100D977005015BF /* IMPolygon.cpp */,
-				A8E5614B2100D977005015BF /* IMHexagon.cpp */,
+				A8E5614B2100D977005015BF /* IMPresets.cpp */,
 				A8E561302100CDC2005015BF /* File.txt */,
-				A8AE2D822101E62600AEAC8B /* Bridging-Header.h */,
 			);
 			path = IsoMetrics;
 			sourceTree = "<group>";
@@ -140,7 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8E5614E2100D977005015BF /* IMPolygon.cpp in Sources */,
-				A8E561502100D977005015BF /* IMHexagon.cpp in Sources */,
+				A8E561502100D977005015BF /* IMPresets.cpp in Sources */,
 				A8E5614C2100D977005015BF /* IMPoint.cpp in Sources */,
 				A8E5614D2100D977005015BF /* IsoMetrics.cpp in Sources */,
 				A8E5613E2100CDC2005015BF /* Utilities.cpp in Sources */,

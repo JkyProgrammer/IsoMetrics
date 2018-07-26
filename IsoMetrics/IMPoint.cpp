@@ -8,6 +8,9 @@
 
 //#include "IsoMetrics.hpp"
 #include "IsoMetrics.hpp"
+#include "Utilities.cpp"
+
+using namespace std;
 
 IMPoint::IMPoint (int xa, int ya, int za) {
     this->x = xa;
@@ -17,7 +20,7 @@ IMPoint::IMPoint (int xa, int ya, int za) {
     
 void IMPoint::normalise () {
 	int vals[] = {this->x, this->y, this->z};
-	int smallest = smallestDiff(0, vals);
+	int smallest = IsoMetrics::smallestDiff(0, vals);
 	
 	
 	float fx = float (this->x - smallest);
@@ -32,6 +35,7 @@ void IMPoint::translate(IMPoint p) {
 	this->x += p.x;
 	this->y += p.y;
 	this->z += p.z;
+	hasUnrenderedChanges = true;
 }
 
 void IMPoint::rotate (int d, IMPoint p) {
@@ -57,6 +61,8 @@ void IMPoint::rotate (int d, IMPoint p) {
 	this->x = px-nx;
 	this->y = py-ny;
 	this->z = pz-nz;
+	
+	hasUnrenderedChanges = true;
 }
 
 bool IMPoint::equals(IMPoint other) {
@@ -64,4 +70,36 @@ bool IMPoint::equals(IMPoint other) {
 		return true;
 	}
 	return false;
+}
+
+bool IMPoint::needsUpdate() {
+	return hasUnrenderedChanges;
+}
+
+tuple<float, float> IMPoint::squareGridCoordinates () {
+	float dx = 0.000;
+	float dy = 0.000;
+	
+	IMPoint p = *this;
+	
+	int vals[] = {p.x, p.y, p.z};
+	int smallest = IsoMetrics::smallestDiff(0, vals);
+	
+	
+	float fx = float (p.x - smallest);
+	float fy = float (p.y - smallest);
+	float fz = float (p.z - smallest);
+	
+	// Apply z
+	dy += fz;
+	
+	// Apply x
+	dx += fx * IsoMetrics::xRatio;
+	dy -= fx * IsoMetrics::yRatio;
+	
+	// Apply y
+	dx -= fy * IsoMetrics::xRatio;
+	dy -= fy * IsoMetrics::yRatio;
+	
+	return make_tuple (dx, dy);
 }
