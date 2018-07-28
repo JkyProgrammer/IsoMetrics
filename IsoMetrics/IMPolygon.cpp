@@ -71,3 +71,15 @@ bool IMPolygon::needsUpdate() {
 	}
 	return false;
 }
+
+void IMPolygon::setShouldDrawClosedLoop(bool flag) {
+	if (flag != shouldDrawClosedLoop) {
+		shouldDrawClosedLoop = flag;
+		hasUnrenderedChanges = true;
+	}
+}
+
+bool IMPolygon::getShouldDrawClosedLoop() {
+	return shouldDrawClosedLoop;
+}
+

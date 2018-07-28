@@ -123,10 +123,14 @@ public:
 class IMPolygon {
 private:
 	/**
-	 Stores the vector of IMPoints. Can be accessed by clients, allowing for use in drawing mechanisms.
+	 Stores the vector of IMPoints. This object is passed into the drawing function, enabling the user to implement their own drawing mechanism (appropriate to environment and context).
 	 */
 	vector<IMPoint> points;
 
+	/**
+	 Used to store whether the IMPolygon should be drawn as a loop or not. A polygon being looped will cause the last point to be joined to the last, as well as the other points being joined in a linear pattern.
+	 */
+	bool shouldDrawClosedLoop = false;
 public:
 	/**
 	 Determines if the object has unrendered changes. Should only be used internally, not client side.
@@ -211,6 +215,16 @@ public:
 	 @return true if the object needs a graphics refresh, otherwise false.
 	 */
 	bool needsUpdate ();
+	
+	/**
+	 Set whether the IMPolygon should be drawn as a loop or not. A polygon being looped will cause the last point to be joined to the last, as well as the other points being joined in a linear pattern.
+	 */
+	void setShouldDrawClosedLoop (bool flag);
+	
+	/**
+	 Get whether the IMPolygon should be drawn as a loop or not. A polygon being looped will cause the last point to be joined to the last, as well as the other points being joined in a linear pattern.
+	 */
+	bool getShouldDrawClosedLoop ();
 };
 
 
@@ -301,6 +315,13 @@ public:
 	static int smallestDiff (int from, int values[]);
 };
 
+/**
+ Contains various preset IMPolygon shapes, or shape templates. Cannot be instantiated.
+ 
+ @author Jake Costen
+ 
+ @version v1.0
+ */
 class IMPresets {
 public:
 	

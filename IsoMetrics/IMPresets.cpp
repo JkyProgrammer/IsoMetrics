@@ -9,7 +9,7 @@
 #include "IsoMetrics.hpp"
 
 IMPolygon IMPresets::hexagon (IMPoint center, int radius) {
-	return *new IMPolygon ({
+	IMPolygon p = *new IMPolygon ({
 		*new IMPoint(center.x + radius, center.y, center.z),
 		*new IMPoint(center.x, center.y, center.z - radius),
 		*new IMPoint(center.x, center.y + radius, center.z),
@@ -17,6 +17,8 @@ IMPolygon IMPresets::hexagon (IMPoint center, int radius) {
 		*new IMPoint(center.x, center.y, center.z + radius),
 		*new IMPoint(center.x, center.y - radius, center.z)
 	});
+	p.shouldDrawClosedLoop = true;
+	return p;
 }
 
 IMPolygon IMPresets::closedTube (IMPoint start, int radius, int pushOut, int segment) {
@@ -30,6 +32,7 @@ IMPolygon IMPresets::closedTube (IMPoint start, int radius, int pushOut, int seg
 			*new IMPoint(start.x, start.y, start.z + radius + pushOut),
 			*new IMPoint(start.x - radius, start.y, start.z + pushOut)
 		});
+		p.shouldDrawClosedLoop = true;
 		p.rotate(segment, start);
 		return p;
 	} else {
