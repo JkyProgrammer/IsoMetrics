@@ -17,7 +17,7 @@ IMPolygon IMPresets::hexagon (IMPoint center, int radius) {
 		*new IMPoint(center.x, center.y, center.z + radius),
 		*new IMPoint(center.x, center.y - radius, center.z)
 	});
-	p.shouldDrawClosedLoop = true;
+	p.setShouldDrawClosedLoop(true);
 	return p;
 }
 
@@ -32,7 +32,7 @@ IMPolygon IMPresets::closedTube (IMPoint start, int radius, int pushOut, int seg
 			*new IMPoint(start.x, start.y, start.z + radius + pushOut),
 			*new IMPoint(start.x - radius, start.y, start.z + pushOut)
 		});
-		p.shouldDrawClosedLoop = true;
+		p.setShouldDrawClosedLoop(true);
 		p.rotate(segment, start);
 		return p;
 	} else {

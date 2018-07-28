@@ -11,9 +11,6 @@
 
 using namespace std;
 
-// * MACH-O as Executable
-// * Write bridging headers (various)
-
 IsoMetrics::IsoMetrics () {
 	thread looper (&IsoMetrics::update, *this);
 }
